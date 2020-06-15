@@ -1,0 +1,143 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{listings}
+
+
+% Some smart developer wrote a Julia display style for us to use!
+% TODO: You have to add jlcode.sty to your directory to make this work
+% Download it here: https://github.com/wg030/jlcode
+% Set usebox=true to get code in a box
+\usepackage[autoload=false,usebox=false]{jlcode} % Use jlcode but don't let it override other listing styles
+% For another way to display Julia code (that probably doesn't work with Unicode characters), see: https://tex.stackexchange.com/questions/212793/how-can-i-typeset-julia-code-with-the-listings-package
+
+
+% General style options, mostly controlling line numbers
+\lstset{
+	frame            = lines,
+	showstringspaces = false,
+	numbers          = left,          % Line numbers left
+	numberstyle      = \color{black}, % Line numbers are black, not deepblue
+	breaklines       = true,          % Wrap overly-long lines
+}
+
+% Some custom colors if we want them
+%\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+%\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+
+
+% Style for Matlab
+\lstdefinestyle{Matlab}{
+	language        = Matlab,
+	frame           = lines, 
+	basicstyle      = \ttfamily\footnotesize,
+	keywordstyle    = \color{blue},
+	stringstyle     = \color{deepgreen},
+	commentstyle    = \color{deepred},
+}
+
+
+
+% Python style from https://tex.stackexchange.com/questions/83882/how-to-highlight-python-syntax-in-latex-listings-lstinputlistings-command/83883#83883
+
+% Python style for highlighting
+\lstdefinestyle{Python}{
+		language         = Python,
+		basicstyle       = \ttfamily\footnotesize,     % Font style (fixed width) and size
+		otherkeywords    = {self,True,False},     % Add keywords you want to take keywordstyle here
+		keywordstyle     = \bfseries\color{blue},
+		emph             = {__init__,__name__,},  % Custom highlighting, add important things
+		emphstyle        = \color{red}\bfseries,       % Custom highlighting style
+		stringstyle      = \color{deepgreen}, % Color of "strings"
+		commentstyle     = \color{deepred},   % Color of #comments
+}
+
+
+
+% TODO: Edit these as appropriate
+\newcommand\course{AA 222}
+\newcommand\hwnumber{5}
+\newcommand\Name{Your name}
+\newcommand\NetID{Your netID}
+
+\pagestyle{fancyplain}
+\headheight 35pt
+\lhead{\NetID\\ \Name}
+\chead{\textbf{\large Code Listing Example}}
+\rhead{\course \\ \today}
+\lfoot{}
+\cfoot{\thepage\ of \pageref{LastPage}}
+\rfoot{}
+\headsep 1.5em
+
+
+
+\begin{document}
+
+	% TODO: Learn to print code from a file (make sure the filepath is correct)
+%	\lstset{caption={Description of your code!}}
+%	\lstinputlisting[style=Python]{./path/to/code.py}
+
+	% TODO: Embed formatted equations in comments using mathescape=true
+	%\lstinputlisting[style=Python,mathescape=true]{hw5_code/problem_1/part_a.py}
+	
+
+	
+% SAMPLES
+% Remember that you DON'T usually want to paste code directly into your document.
+% It's much more error-proof to input the code directly from the code files.
+% This is just an example.
+	
+	
+% TODO: Learn to add Python code
+% An example to show this in action, because it's really cool:
+\begin{lstlisting}[caption={Python example. Adding equations in comments. Optimal control example.},style=Python,mathescape=true]
+# Some code that does very little, but has embedded math in comments
+# Linear system: get $x_{t+1} = Ax_t + Bu_t$.
+xp = A @ x + B @ u
+# Compute quadratic cost $c(x,u) = x^TQx + u^TRu$.
+c = x.T @ Q @ x + u.T @ R @ u
+\end{lstlisting}
+
+
+% TODO: Learn to add Julia code
+\begin{lstlisting}[caption={Julia example. Cross-entropy method from Prof. Kochenderfer's textbook. Note that most Unicode characters will work.},language=julia, style=jlcodestyle,mathescape=true]
+# The cross-entropy method from "Algorithms for Optimization"
+using Distributions
+function cross_entropy_method(f,P,k_max,m=100,m_elite=10)
+	for k ∈ 1:k_max
+		samples = rand(P,m)
+		order = sortperm([f(samples[:,i])for i ∈ 1:m]) 
+		P = fit(typeof(P), samples[:, order[1:m_elite]])
+	end
+	return P
+	@macro
+end
+\end{lstlisting}
+
+
+% TODO: Learn to add Matlab code
+\begin{lstlisting}[caption={Matlab example.},language=matlab, style=matlab,mathescape=true]
+x = linspace(0, 10);
+y = sin(x); % Plot $y = \sin(x)$.
+plot(x,y);
+\end{lstlisting}
+
+
+	
+
+% TODO: If you want to include some code output:
+	% \begin{verbatim}
+	% paste output here and it will be unformatted fixed-width
+	% \end{verbatim}
+
+
+\end{document}
